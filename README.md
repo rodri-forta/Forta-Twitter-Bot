@@ -25,7 +25,7 @@ Hard rug pull.
 
 ## Supported Chains
 
-- Bot will be using Etherium Chain to set the 4 hours trigger to make call for the Twitter API.
+- Bot will be using Etherium Chain to set the 2 hours trigger to make call for the Twitter API.
 
 
 ## Alerts

@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "Forta Twitter Bot, detects addresses mentioned in Twitter as Scammers",
   "longDescription": "",
-  "repository": "https://github.com/forta-network/forta-bot-sdk/tree/master/starter-project",
+  "repository": "https://github.com/rodri-forta/Forta-Twitter-Bot",
   "licenseUrl": "https://github.com/forta-network/forta-bot-sdk/blob/master/starter-project/LICENSE.md",
   "promoUrl": "https://forta.org",
   "chainIds": [
