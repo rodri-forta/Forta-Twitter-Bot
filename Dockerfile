@@ -5,6 +5,8 @@ RUN apk add alpine-sdk
 RUN python3 -m pip install --upgrade pip
 COPY requirements.txt ./
 RUN python3 -m pip install --user -r requirements.txt
+# Install dotenv dependency
+RUN python3 -m pip install python-dotenv
 COPY ./.env ./
 
 # Final stage: copy over Python dependencies and install production Node dependencies
