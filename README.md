@@ -1,15 +1,16 @@
-# FortaGuard Twitter Flagged Detection Bot
+# Forta Twitter Bot 
 
 ## Description
 
-FortaGuard Twitter Flagged Detection Bot is designed to analyze tweets from verified sources and identify addresses related to scams. It flags these addresses within the Forta Network, contributing to a safer and more secure social media environment.
+ Forta Twitter Bot is designed to analyze tweets from verified sources and identify addresses related to scams. It flags these addresses within the Forta Network, contributing to a safer and more secure social media environment.
 
-Every 4 hours the bot will make a call to Twitter API asking for 50 tweets from a list of virified sources related to Web3 alerts, resulting in a 10.000 month amount of analyzed tweets. 
+Every 2 hours the bot will make a call to Twitter API asking for 25 tweets from a list of virified sources related to Web3 alerts, resulting in a 9.000 month amount of analyzed tweets. 
 
 Each tweet will be parced into a find_crypto_addresses() function. This function will recibe:
   . The tweet text (String)
   . Date Tweeted (Unix Timestamp)
   . Account that Tweeted (String)
+  
 
 The result will be an empty array if there are no addresses in the tweet 
 or an array with the Address, Date and account who tweeted. In V1 addresses will not be categorized, just flagged as mention in twitter.
