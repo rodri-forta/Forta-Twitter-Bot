@@ -8,7 +8,7 @@ RUN python3 -m pip install --user -r requirements.txt
 # Install dotenv dependency
 RUN python3 -m pip install python-dotenv
 COPY ./.env ./
-COPY secrets.json /app/secrets.json
+COPY secrets.json /secrets.json
 
 # Final stage: copy over Python dependencies and install production Node dependencies
 FROM node:12-alpine
@@ -23,5 +23,6 @@ WORKDIR /app
 COPY ./src ./src
 COPY package*.json ./
 COPY LICENSE.md ./
+COPY secrets.json /secrets.json
 RUN npm ci --production
 CMD [ "npm", "run", "start:prod" ]
