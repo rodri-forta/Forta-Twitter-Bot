@@ -5,6 +5,7 @@ import datetime
 from datetime import timedelta
 from datetime import datetime
 import aiohttp
+load_dotenv()
 
 import csv
 
@@ -12,7 +13,7 @@ import csv
 from .remove_duplicates_tweets import remove_duplicates_tweets
 from .process_tweets import process_tweets
 
-
+from dotenv import load_dotenv
 
 def auth():
     return os.environ.get("BEARER_TOKEN")

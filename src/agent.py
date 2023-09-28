@@ -8,7 +8,7 @@ from forta_agent import (
     Finding,
     FindingSeverity,
     FindingType,
-    
+   
 )
 
 async def run_twitter():
