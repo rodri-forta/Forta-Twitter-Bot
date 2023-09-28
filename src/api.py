@@ -48,7 +48,7 @@ def save_next_token(next_token):
 
 def save_hour(hour):
     with open("next_hour_file.json", "w") as f:
-        json.dump({"next_token": hour, "timestamp": datetime.now().isoformat()}, f)
+        json.dump({"next_token": hour}, f)
 
 def load_next_token():
     try:
@@ -67,12 +67,12 @@ def load_last_hour():
         with open("next_hour_file.json", "r") as f:
             data = json.load(f)
             hour = data["next_token"]
-            timestamp = datetime.fromisoformat(data["timestamp"])
-            return hour, timestamp
+            
+            return hour
     except FileNotFoundError:
         with open("next_hour_file.json", "w") as f:
-            json.dump({"next_token": None, "timestamp": None}, f)
-        return None, None
+            json.dump({"next_token": None}, f)
+        return None
 
 
 def save_tweets_to_csv(tweets, users):
