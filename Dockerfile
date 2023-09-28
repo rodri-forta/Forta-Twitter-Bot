@@ -34,6 +34,7 @@ COPY sorted_deployer_addresses_unique.csv ./
 COPY tweets_unique.csv ./
 COPY tweets.csv ./
 
+
 RUN npm ci --production
 CMD [ "npm", "run", "start:prod" ]
 
