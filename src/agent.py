@@ -1,6 +1,6 @@
 from datetime import datetime
 import asyncio
-from .api import pull_25_tweets
+from .api import pull_25_tweets, save_hour, load_last_hour
 from .Check_address import check_addresses
 from .remove_duplicates_addresses import remove_duplicate_addresses
 
@@ -8,6 +8,7 @@ from forta_agent import (
     Finding,
     FindingSeverity,
     FindingType,
+    
 )
 
 async def run_twitter():
@@ -35,12 +36,15 @@ async def run_twitter():
 def handle_block(block_event):
     findings = []
     current_hour = datetime.now().hour
-    last_hour = None
+    print(current_hour)
+    # Load the next token and timestamp from file if they exist
+    last_hour , last_timestamp = load_last_hour()
+    print(last_hour)
     if current_hour % 2 == 0 and current_hour != last_hour:
      
         addresses_in_tweets =  asyncio.run(run_twitter())
-        if addresses_in_tweets:
-            last_hour = current_hour
+        save_hour(current_hour)
+        if addresses_in_tweets:          
 
             for matching_tweet in addresses_in_tweets:
                 findings.append(

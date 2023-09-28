@@ -7,12 +7,12 @@ from datetime import datetime
 import aiohttp
 
 import csv
-from dotenv import load_dotenv
+
 
 from .remove_duplicates_tweets import remove_duplicates_tweets
 from .process_tweets import process_tweets
 
-load_dotenv()
+
 
 def auth():
     return os.environ.get("BEARER_TOKEN")
@@ -44,6 +44,10 @@ def save_next_token(next_token):
     with open("next_token_file.json", "w") as f:
         json.dump({"next_token": next_token, "timestamp": datetime.now().isoformat()}, f)
 
+def save_hour(hour):
+    with open("next_hour_file.json", "w") as f:
+        json.dump({"next_token": hour, "timestamp": datetime.now().isoformat()}, f)
+
 def load_next_token():
     try:
         with open("next_token_file.json", "r") as f:
@@ -53,6 +57,18 @@ def load_next_token():
             return next_token, timestamp
     except FileNotFoundError:
         with open("next_token_file.json", "w") as f:
+            json.dump({"next_token": None, "timestamp": None}, f)
+        return None, None
+    
+def load_last_hour():
+    try:
+        with open("next_hour_file.json", "r") as f:
+            data = json.load(f)
+            hour = data["next_token"]
+            timestamp = datetime.fromisoformat(data["timestamp"])
+            return hour, timestamp
+    except FileNotFoundError:
+        with open("next_hour_file.json", "w") as f:
             json.dump({"next_token": None, "timestamp": None}, f)
         return None, None
 
@@ -70,47 +86,7 @@ def save_tweets_to_csv(tweets, users):
             writer.writerow([tweet_id, username, text, timestamp, tweet_link])
     print(tweet["created_at"])
             
-"""
-async def pull_25_tweets():
-    bearer_token = auth()
-    headers = create_headers(bearer_token)
 
-    # Load the next token and timestamp from file if they exist
-    pagination_token, last_timestamp = load_next_token()
-
-    # Check if it's been less than an hour since the last retrieval
-    if last_timestamp is None or datetime.now() - last_timestamp < timedelta(hours=1):
-        # Pull the first 25 tweets
-        url = create_url(pagination_token)
-        json_response = connect_to_endpoint(url, headers)
-
-        # Save the tweets to a CSV file
-        save_tweets_to_csv(json_response["data"], json_response["includes"]["users"])
-
-        # Save the next token to file if it exists
-        if "next_token" in json_response["meta"]:
-            next_token = json_response["meta"]["next_token"]
-            save_next_token(next_token)
-    else:
-        # Make a new API call with the last results
-        url = create_url()
-        json_response = connect_to_endpoint(url, headers)
-
-        # Save the tweets to a CSV file
-        save_tweets_to_csv(json_response["data"], json_response["includes"]["users"])
-
-        # Save the next token to file if it exists
-        if "next_token" in json_response["meta"]:
-            next_token = json_response["meta"]["next_token"]
-            save_next_token(next_token)
-    
-    # Run the duplicate removal script as a subprocess
-    remove_duplicates_tweets()
-   
-    # Run the duplicate removal script as a subprocess
-    process_tweets()
-
-    """
 
 async def pull_25_tweets():
     bearer_token = auth()
@@ -120,7 +96,7 @@ async def pull_25_tweets():
     pagination_token, last_timestamp = load_next_token()
 
     # Check if it's been less than an hour since the last retrieval
-    if last_timestamp is None or datetime.now() - last_timestamp < timedelta(hours=1):
+    if last_timestamp is None or datetime.now() - last_timestamp < timedelta(minutes=30):
         # Pull the first 25 tweets using aiohttp
         url = create_url(pagination_token)
         async with aiohttp.ClientSession(headers=headers) as session:
