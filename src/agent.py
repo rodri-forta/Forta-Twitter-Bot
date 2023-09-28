@@ -36,12 +36,12 @@ async def run_twitter():
 def handle_block(block_event):
     findings = []
     current_hour = datetime.now().hour
-    print(current_hour)
+    print('current hour:', current_hour)
     # Load the next token and timestamp from file if they exist
     last_hour , last_timestamp = load_last_hour()
-    print(last_hour)
+    print('last hour: ',  last_hour)
     if current_hour % 2 == 0 and current_hour != last_hour:
-     
+            
         addresses_in_tweets =  asyncio.run(run_twitter())
         save_hour(current_hour)
         if addresses_in_tweets:          
