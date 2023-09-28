@@ -7,8 +7,7 @@ from .remove_duplicates_addresses import remove_duplicate_addresses
 from forta_agent import (
     Finding,
     FindingSeverity,
-    FindingType,
-   
+    FindingType,   
 )
 
 async def run_twitter():

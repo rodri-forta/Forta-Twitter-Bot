@@ -12,12 +12,11 @@ import csv
 from .remove_duplicates_tweets import remove_duplicates_tweets
 from .process_tweets import process_tweets
 
-from dotenv import load_dotenv
-load_dotenv()
 
+with open('secrets.json', 'r') as secrets_file:
+    secrets2 = json.load(secrets_file)
 
-def auth():
-    return os.environ.get("BEARER_TOKEN")
+BEARER_TOKEN = secrets2.get("BEARER_TOKEN")
 
 def create_url(pagination_token=None, since_id=None):
     list_id = "1639353275777441804"
@@ -66,8 +65,7 @@ def load_last_hour():
     try:
         with open("next_hour_file.json", "r") as f:
             data = json.load(f)
-            hour = data["next_token"]
-            
+            hour = data["next_token"]            
             return hour
     except FileNotFoundError:
         with open("next_hour_file.json", "w") as f:
@@ -91,7 +89,7 @@ def save_tweets_to_csv(tweets, users):
 
 
 async def pull_25_tweets():
-    bearer_token = auth()
+    bearer_token = BEARER_TOKEN
     headers = create_headers(bearer_token)
 
     # Load the next token and timestamp from file if they exist

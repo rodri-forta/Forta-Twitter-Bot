@@ -1,17 +1,21 @@
 from web3 import Web3
 from dotenv import load_dotenv
-import os
 import csv
 import requests
 import pandas as pd
 import re
 import time 
+import json
 
-load_dotenv()
-BSC_SCAN_TOKEN = os.environ.get("BSC_SCAN_TOKEN")
-ETH_SCAN_TOKEN = os.environ.get("ETH_SCAN_TOKEN")
-INFURIA_TOKEN = os.environ.get("INFURIA_TOKEN")
-QUICKNODE_TOKEN = os.environ.get("QUICKNODE_TOKEN")
+
+with open('secrets.json', 'r') as secrets_file:
+    secrets = json.load(secrets_file)
+
+BSC_SCAN_TOKEN = secrets.get("BSC_SCAN_TOKEN")
+ETH_SCAN_TOKEN = secrets.get("ETH_SCAN_TOKEN")
+INFURIA_TOKEN = secrets.get("INFURIA_TOKEN")
+QUICKNODE_TOKEN = secrets.get("QUICKNODE_TOKEN")
+
 
 def check_address_type_ETH(address):
     w3 = Web3(Web3.HTTPProvider(f'https://mainnet.infura.io/v3/{INFURIA_TOKEN}')) 
