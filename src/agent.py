@@ -7,7 +7,8 @@ from .remove_duplicates_addresses import remove_duplicate_addresses
 from forta_agent import (
     Finding,
     FindingSeverity,
-    FindingType,   
+    FindingType,
+    EntityType
 )
 
 async def run_twitter():
@@ -39,7 +40,6 @@ def handle_block(block_event):
     last_hour = load_last_hour()
     print('last hour: ',  last_hour)
     if current_hour % 2 == 0 and current_hour != last_hour:
-            
         addresses_in_tweets =  asyncio.run(run_twitter())
         save_hour(current_hour)
         if addresses_in_tweets:          
@@ -61,6 +61,12 @@ def handle_block(block_event):
                                 "Tweet_URL": matching_tweet['tweet_url'],
                                 "tweet_text": matching_tweet['tweet_text'],
                                              },
+                            "labels":  [{
+                                        "entityType": EntityType.Address,
+                                        "entity": f"{matching_tweet['address_found']}",
+                                        "label": "attacker",
+                                        "confidence": 0.8,
+                                             }]
                         }
                     )
                 )
