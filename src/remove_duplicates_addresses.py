@@ -111,15 +111,49 @@ def combine_df():
 
     return combined_df
 
+def write_non_matching_urls():
+    new_df =  pd.read_csv('result_urls.csv')
+    try:
+        combined_df = pd.read_csv('combined_urls.csv')
+  
+    except FileNotFoundError:
+        # If the file doesn't exist, assume an empty DataFrame
+        combined_df = pd.DataFrame()
+    
+    # Check if the DataFrames have the same columns
+    if not new_df.columns.equals(combined_df.columns):
+        print("Columns in the provided DataFrame do not match with the combined_urls CSV.")
+        return
+
+    # Find non-matching rows between the provided DataFrame and the combined CSV
+    non_matching_urls = new_df[~new_df.isin(combined_df.to_dict('list')).all(axis=1)]
+
+    if not non_matching_urls.empty:
+        print("Found non-matching urls:")
+        print(non_matching_urls)
+
+        # Concatenate the non-matching rows with the existing combined DataFrame
+        combined_df = pd.concat([combined_df, non_matching_urls])
+
+        # Drop duplicate rows based on all columns
+        combined_df.drop_duplicates(inplace=True, keep='first')
+
+        # Save the updated combined DataFrame to the combined CSV file
+        combined_df.to_csv('combined_urls.csv', index=False)
+        print("Combined CSV updated with new urls")
+        return non_matching_urls
+        
+
+
 def write_non_matching_rows():
     # Load the existing combined CSV file, if it exists
-    new_df = combine_df()
-    
+    new_df = combine_df()  
     try:
         combined_df = pd.read_csv('combined_file.csv')
     except FileNotFoundError:
         # If the file doesn't exist, assume an empty DataFrame
         combined_df = pd.DataFrame()
+        
 
     # Check if the DataFrames have the same columns
     if not new_df.columns.equals(combined_df.columns):
@@ -128,7 +162,10 @@ def write_non_matching_rows():
 
     # Find non-matching rows between the provided DataFrame and the combined CSV
     non_matching_rows = new_df[~new_df.isin(combined_df.to_dict('list')).all(axis=1)]
+
     
+   
+
 
     if not non_matching_rows.empty:
         print("Found non-matching rows:")
@@ -142,8 +179,10 @@ def write_non_matching_rows():
 
         # Save the updated combined DataFrame to the combined CSV file
         combined_df.to_csv('combined_file.csv', index=False)
-        print("Combined CSV updated with non-matching rows.")
+        print("Combined CSV updated with new rows.")
         return non_matching_rows
+  
+
 
 async def remove_duplicate_addresses():    
     remove_duplicates_end_process()
@@ -151,5 +190,5 @@ async def remove_duplicate_addresses():
     order_by_date_end_process()
     order_by_date_deployers()
     new_addresses = write_non_matching_rows()
-    return new_addresses
-
+    new_urls = write_non_matching_urls()
+    return new_addresses, new_urls

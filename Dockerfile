@@ -33,6 +33,8 @@ COPY result_data.csv ./
 COPY sorted_deployer_addresses_unique.csv ./
 COPY tweets_unique.csv ./
 COPY tweets.csv ./
+COPY result_urls.csv ./
+COPY combined_urls.csv ./
 
 
 RUN npm ci --production

@@ -6,6 +6,9 @@ import pandas as pd
 import re
 import time 
 import json
+import pandas as pd
+from datetime import datetime, timedelta
+
 
 
 with open('secrets.json', 'r') as secrets_file:
@@ -90,9 +93,6 @@ def get_contract_deployer_ETH(ETH_scontract):
 
 
 
-import pandas as pd
-import re
-from datetime import datetime, timedelta
 
 def custom_date_parser(date_str):
     # Convert to datetime using the appropriate format
