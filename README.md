@@ -7,11 +7,12 @@
 Every 2 hours the bot will make a call to Twitter API asking for 25 tweets from a list of virified sources related to Web3 alerts, resulting in a 9.000 month amount of analyzed tweets. 
 
 Each tweet will be parced into a extract_addresses() function. This function will recibe:
-     . Date: The date is formatted as 'MM/DD/YYYY' and is obtained from the 'Date' column.
-     . Type: The entry type is 'Address.'
-     . Address: The specific address information is contained within this field.
-     . Account: This field contains information related to an account, sourced from the 'Account' column.
-     . TweetURL: The URL of a tweet is stored here.
+    
+- `Date`: The date is formatted as 'MM/DD/YYYY' and is obtained from the 'Date' column.
+- `Type`: The entry type is 'Address.'
+- `Address`: The specific address information is contained within this field.
+- `Account`: This field contains information related to an account, sourced from the 'Account' column.
+- `TweetURL`: The URL of a tweet is stored here.
 
 The result will be an empty array if there are no addresses in the tweet 
 or an array with the Address, Date and account who tweeted. In V1 addresses will not be categorized, just flagged as mention in twitter.
