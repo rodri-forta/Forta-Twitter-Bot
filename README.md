@@ -35,14 +35,14 @@ Hard rug pull.
 
 The FortaGuard Twitter Flagged Detection Bot fires the following type of alert:
 
-- SCAMMER ADDRESS
+- `Scammer address`:
   - This alert is triggered when find_crypto_addresses() returns an array with a new Address and will have the following format: 
 
- {"Account_from":"@BeosinAlert","Date_Tweeted":"10/11/2023","Tweet_URL":"https://twitter.com/BeosinAlert/status/1711930957107007642","Twitter_Mentioned_Account":"0x281b8cb2AE64cd14501fc7Bcd2545be2836B173D","tweet_text":"$FSL on BNB Chain rugged, the deployer profited ~$1.68M.  Contract: 0x8923881e8cAe6684C2bB84D69aE88A9bbbEC8d5a  The deployer  0x281b8cb2AE64cd14501fc7Bcd2545be2836B173D minted 100M $FSL at the creation of the contract.   The 0x281b address has then sent 97M $FSL to… https://t.co/UyfYg6Oyu1 https://t.co/wv0AGsoBeQ"}
+ {"Account_from":"@BeosinAlert","Date_Tweeted":"10/11/2023","Tweet_URL":"https://twitter.com/BeosinAlert/status/1711930957107007642 ","Twitter_Mentioned_Account":"0x281b8cb2AE64cd14501fc7Bcd2545be2836B173D","tweet_text":"$FSL on BNB Chain rugged, the deployer profited ~$1.68M.  Contract: 0x8923881e8cAe6684C2bB84D69aE88A9bbbEC8d5a  The deployer  0x281b8cb2AE64cd14501fc7Bcd2545be2836B173D minted 100M $FSL at the creation of the contract.   The 0x281b address has then sent 97M $FSL to… https://t.co/UyfYg6Oyu1 https://t.co/wv0AGsoBeQ"}
 
 
-- MALICIOUS URLS
+- `Malicius URL`:
   - This alert is triggered when find_malicious_url() returns an array with new malicious URLS and will have the following format:
   
- {"Account_from":"@CertiKAlert","Date_Tweeted":"10/13/2023","Tweet_URL":"https://twitter.com/CertiKAlert/status/1712817053176885403","Twitter_Mentioned_URL":"https://www.drop-nft.website/ ","tweet_text":"#CertiKSkynetAlert 🚨  Beware of a fake NFT airdrop being promoted on X  Do not interact with hxxps://www.drop-nft.website/  Site connects to a phishing contract created yesterday  https://t.co/Hc7OIcNUDA"}
+ {"Account_from":"@CertiKAlert","Date_Tweeted":"10/13/2023","Tweet_URL":"https://twitter.com/CertiKAlert/status/1712817053176885403 ","Twitter_Mentioned_URL":"https://www.drop-nft.website/ ","tweet_text":"#CertiKSkynetAlert 🚨  Beware of a fake NFT airdrop being promoted on X  Do not interact with hxxps://www.drop-nft.website/  Site connects to a phishing contract created yesterday  https://t.co/Hc7OIcNUDA"}
   
