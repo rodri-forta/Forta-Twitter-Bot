@@ -46,7 +46,7 @@ def process_tweets():
 
     # Define a function to extract addresses from a text
     def extract_addresses(text):
-        return re.findall(r'0x[a-fA-F0-9]{40}', text)
+        return re.findall(r'\b0x[a-fA-F0-9]{40}\b', text)
 
     # Iterate through each row of the DataFrame
     for index, row in filtered_df.iterrows():

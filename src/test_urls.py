@@ -17,3 +17,13 @@ result = re.findall(url_pattern, text)
 for link in result:
      result2 = https_converter(link)
      print(result2)
+
+
+
+text2 = "Update: HTX/Huobi just sent them a whitehat bounty of 250 ETH ($410K) along with this message 0x481cc79ee51b417ecfbdcfaa21cefd5b91bc8c2b, 0x481cc79ee51b417ecfbdcfaa21cefd5b91bc8c2c"
+def extract_addresses(text):
+        return re.findall(r'\b0x[a-fA-F0-9]{40}\b', text)
+
+
+result =  extract_addresses(text2)
+print(result)

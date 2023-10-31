@@ -10,6 +10,12 @@
   "chainIds": [
     1
   ],
+  "chainSettings": {
+    "default": {
+      "shards": 1,
+      "target": 1
+    }
+  },
   "scripts": {
     "postinstall": "python3 -m pip install -r requirements_dev.txt",
     "start": "npm run start:dev",
