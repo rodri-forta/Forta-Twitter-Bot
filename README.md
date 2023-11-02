@@ -6,11 +6,13 @@
 
 Every 2 hours the bot will make a call to Twitter API asking for 25 tweets from a list of virified sources related to Web3 alerts, resulting in a 9.000 month amount of analyzed tweets. 
 
-Each tweet will be parced into a find_crypto_addresses() function. This function will recibe:
-  . The tweet text (String)
-  . Date Tweeted (Unix Timestamp)
-  . Account that Tweeted (String)
-  
+Each tweet will be parced into a extract_addresses() function. This function will recibe:
+    
+- `Date`: The date is formatted as 'MM/DD/YYYY' and is obtained from the 'Date' column.
+- `Type`: The entry type is 'Address.'
+- `Address`: The specific address information is contained within this field.
+- `Account`: This field contains information related to an account, sourced from the 'Account' column.
+- `TweetURL`: The URL of a tweet is stored here.
 
 The result will be an empty array if there are no addresses in the tweet 
 or an array with the Address, Date and account who tweeted. In V1 addresses will not be categorized, just flagged as mention in twitter.
@@ -33,54 +35,14 @@ Hard rug pull.
 
 The FortaGuard Twitter Flagged Detection Bot fires the following type of alert:
 
-- SCAMMER ADDRESS
+- `Scammer address`:
   - This alert is triggered when find_crypto_addresses() returns an array with a new Address and will have the following format: 
 
-  { 
-    Twitter_Mentioned_Account: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e", 
-    Date_Tweeted: 1690389639,
-    Account_from : @web3alertsexample
-  }
+ {"Account_from":"@BeosinAlert","Date_Tweeted":"10/11/2023","Tweet_URL":"https://twitter.com/BeosinAlert/status/1711930957107007642 ","Twitter_Mentioned_Account":"0x281b8cb2AE64cd14501fc7Bcd2545be2836B173D","tweet_text":"$FSL on BNB Chain rugged, the deployer profited ~$1.68M.  Contract: 0x8923881e8cAe6684C2bB84D69aE88A9bbbEC8d5a  The deployer  0x281b8cb2AE64cd14501fc7Bcd2545be2836B173D minted 100M $FSL at the creation of the contract.   The 0x281b address has then sent 97M $FSL to… https://t.co/UyfYg6Oyu1 https://t.co/wv0AGsoBeQ"}
 
 
-
-## Test Data
-
-To verify the behavior of the FortaGuard Twitter Flagged Detection Bot, you can input the text of the tweets of the following tweets:
-
-### Text needed asuming Date: 1695676631
-- https://twitter.com/CertiKAlert/status/1659061191363248128
-        "#CertiKSkynetAlert 🚨
-        We have detected suspicious activity on EOA: 0xACE5Ef13E0b4Fa2bEAac957408d6D0936227C559
-        Revoke permissions if you have unintentionally given the EOA access to your tokens
-        #IcePhish
-        See more about this incident here 👇
-        https://skynet.certik.com/alerts/security/e273ed42-3b77-43c0-98ef-334d5b12a9d1
-        Stay safe!"
-
-
-### Text needed asuming Date: 1695689639
-
-- https://twitter.com/CertiKAlert/status/1659072036474433537
-        "#CertiKSkynetAlert 🚨
-        We have detected suspicious activity on EOA: 0x82242F63946c6198Ec5bdf765bB013995195A586
-        Revoke permissions if you have unintentionally given the EOA access to your tokens.
-        #IcePhish
-        See more about this incident here 👇
-        https://skynet.certik.com/alerts/security/68dc74da-a52d-4c2c-bfda-f875c8f32230
-        Stay safe!"
-
-## Test should emit two alerts with the following tags: 
-
-{ 
-    Twitter_Mentioned_Account: "0x82242F63946c6198Ec5bdf765bB013995195A586", 
-    Date_Twitted: 1695676631,
-    Account_from : @CertiKAlert
-  }
-
-
-{ 
-    Twitter_Mentioned_Account: "0xACE5Ef13E0b4Fa2bEAac957408d6D0936227C559", 
-    Date_Tweeted: 1695689639,
-    Account_from : @CertiKAlert
-  }
+- `Malicius URL`:
+  - This alert is triggered when find_malicious_url() returns an array with new malicious URLS and will have the following format:
+  
+ {"Account_from":"@CertiKAlert","Date_Tweeted":"10/13/2023","Tweet_URL":"https://twitter.com/CertiKAlert/status/1712817053176885403 ","Twitter_Mentioned_URL":"https://www.drop-nft.website/ ","tweet_text":"#CertiKSkynetAlert 🚨  Beware of a fake NFT airdrop being promoted on X  Do not interact with hxxps://www.drop-nft.website/  Site connects to a phishing contract created yesterday  https://t.co/Hc7OIcNUDA"}
+  
