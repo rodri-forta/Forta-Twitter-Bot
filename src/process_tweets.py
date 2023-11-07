@@ -52,6 +52,7 @@ def process_tweets():
     for index, row in filtered_df.iterrows():
         tweet_addresses = extract_addresses(row['Tweet'])
         hxxp_links = re.findall(url_pattern, row['Tweet'])
+        
         if tweet_addresses:
             for address in tweet_addresses:
                 # Determine the Chain ID based on the tweet content (case insensitive)

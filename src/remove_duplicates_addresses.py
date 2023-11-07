@@ -111,13 +111,20 @@ def combine_df():
 
     return combined_df
 
+import pandas as pd
+
 def write_non_matching_urls():
-    new_df =  pd.read_csv('result_urls.csv')
+    try:
+        new_df = pd.read_csv('result_urls.csv')
+    except pd.errors.EmptyDataError:
+        print("The 'result_urls.csv' file is empty.")
+        return
+
     try:
         combined_df = pd.read_csv('combined_urls.csv')
-  
     except FileNotFoundError:
         # If the file doesn't exist, assume an empty DataFrame
+        print('combine-file not found creating empty...')
         combined_df = pd.DataFrame()
     
     # Check if the DataFrames have the same columns
@@ -142,7 +149,7 @@ def write_non_matching_urls():
         combined_df.to_csv('combined_urls.csv', index=False)
         print("Combined CSV updated with new urls")
         return non_matching_urls
-        
+
 
 
 def write_non_matching_rows():
@@ -152,6 +159,7 @@ def write_non_matching_rows():
         combined_df = pd.read_csv('combined_file.csv')
     except FileNotFoundError:
         # If the file doesn't exist, assume an empty DataFrame
+        print('combine-file not found creating empty...')
         combined_df = pd.DataFrame()
         
 

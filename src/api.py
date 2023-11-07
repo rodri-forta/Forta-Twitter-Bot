@@ -20,7 +20,7 @@ BEARER_TOKEN = secrets2.get("BEARER_TOKEN")
 
 def create_url(pagination_token=None, since_id=None):
     list_id = "1639353275777441804"
-    max_results = 25
+    max_results = 20
     tweet_fields = "created_at"
     expansions = "author_id"
     user_fields = "username"

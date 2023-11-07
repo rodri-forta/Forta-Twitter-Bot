@@ -24,6 +24,8 @@ COPY package*.json ./
 COPY LICENSE.md ./
 
 COPY secrets.json ./
+COPY next_hour_file.json ./
+COPY next_token_file.json ./
 COPY combined_file.csv ./  
 COPY deployer_addresses_unique.csv ./
 COPY deployer_addresses.csv ./
