@@ -33,7 +33,7 @@ def process_tweets():
     # Apply the custom date parser to the 'Date' column
     df['Date'] = df['Date'].iloc[1:].apply(custom_date_parser)
     # Calculate the date from 7 days ago
-    three_days_ago = datetime.now() - timedelta(days=30)
+    three_days_ago = datetime.now() - timedelta(days=7)
 
     # Filter rows where the 'Date' is greater than seven_days_ago
     filtered_df = df[df['Date'] > three_days_ago]
