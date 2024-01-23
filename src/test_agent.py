@@ -1,15 +1,20 @@
-from typing import List
-from unittest.mock import Mock
+texto = "victim: 0xa14ea77bb57487f73459f06A5ad85F509492FEC3  scammers: 0x0000f0D34d51D23B0dd75A6b720c7F4f10430000 0x47d3503D499247AfA3E9A0A08CBb8C97088Ee0b2 0x40665350bcF25f602aa21b6e98d590C9F6E5Fcf4"
 
-from agent import find_crypto_addresses
-tweet = """$BALD rugged for ~5,000 $ETH (worth ~$9.28M).
+import re
 
-The deployer added a total of 6,077 $ETH liquidity and removed 11,077 $ETH.
+import re
 
-$BALD address:
-0x27D2DECb4bFC9C76F0309b8E88dec3a601Fe25a8"""
+def extract_addresses(text):
+    # Buscar todas las direcciones y posibles ocurrencias de 'victim' antes de ellas
+    pattern = r'\b(?i)victim\s*:?\s*(0x[a-fA-F0-9]{40})\b|\b(0x[a-fA-F0-9]{40})\b'
+    matches = re.findall(pattern, text)
 
-class TestFlashLoanDetector:
-    def test_returns_finding_if_it_sees_a_crypto_address(self):
-        findings = find_crypto_addresses(tweet)
-        assert len(findings) == 1
+    valid_addresses = []
+    for victim_match, address_match in matches:
+        # Si victim_match está vacío, la dirección no está precedida por 'victim'
+        if not victim_match:
+            valid_addresses.append(address_match)
+
+    return valid_addresses
+
+print(extract_addresses(texto))
