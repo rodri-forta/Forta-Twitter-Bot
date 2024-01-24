@@ -33,7 +33,7 @@ def process_tweets():
     # Apply the custom date parser to the 'Date' column
     df['Date'] = df['Date'].iloc[1:].apply(custom_date_parser)
     # Calculate the date from 7 days ago
-    three_days_ago = datetime.now() - timedelta(days=3)
+    three_days_ago = datetime.now() - timedelta(days=7)
 
     # Filter rows where the 'Date' is greater than seven_days_ago
     filtered_df = df[df['Date'] > three_days_ago]
@@ -46,8 +46,17 @@ def process_tweets():
 
     # Define a function to extract addresses from a text
     def extract_addresses(text):
-        return re.findall(r'\b0x[a-fA-F0-9]{40}\b', text)
+        # Buscar todas las direcciones y posibles ocurrencias de 'victim' antes de ellas
+        pattern = r'\b(?i)victim\s*:?\s*(0x[a-fA-F0-9]{40})\b|\b(0x[a-fA-F0-9]{40})\b'
+        matches = re.findall(pattern, text)
 
+        valid_addresses = []
+        for victim_match, address_match in matches:
+            # Si victim_match está vacío, la dirección no está precedida por 'victim'
+            if not victim_match:
+                valid_addresses.append(address_match)
+
+        return valid_addresses
     # Iterate through each row of the DataFrame
     for index, row in filtered_df.iterrows():
         tweet_addresses = extract_addresses(row['Tweet'])

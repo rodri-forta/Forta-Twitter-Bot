@@ -8,6 +8,9 @@ import time
 import json
 import pandas as pd
 from datetime import datetime, timedelta
+import requests
+from hexbytes import HexBytes
+
 
 
 
@@ -19,24 +22,57 @@ ETH_SCAN_TOKEN = secrets.get("ETH_SCAN_TOKEN")
 INFURIA_TOKEN = secrets.get("INFURIA_TOKEN")
 QUICKNODE_TOKEN = secrets.get("QUICKNODE_TOKEN")
 
+ETH_RPC = secrets.get('MAINNET_INFURA_RPC_ENDPOINT')
+BSC_RPC = secrets.get('BSC_RPC_ENDPOINT')
+
+
+
+
+
+rpc_endpoint_address_eth = ETH_RPC
+w3_eth = Web3(Web3.HTTPProvider(rpc_endpoint_address_eth))
+w3_eth.manager.request_blocking
+
+rpc_endpoint_address_bsc = BSC_RPC
+w3_bsc = Web3(Web3.HTTPProvider(rpc_endpoint_address_bsc))
+w3_bsc.manager.request_blocking
+def is_contract_eth(address) -> bool:
+    """
+    this function determines whether address is a contract
+    :return: is_contract: bool
+    """
+    if address is None:
+        return True
+    code = w3_eth.eth.get_code(Web3.to_checksum_address(address))
+    return code != HexBytes('0x')
+
+def is_contract_bsc(address) -> bool:
+    """
+    this function determines whether address is a contract
+    :return: is_contract: bool
+    """
+    if address is None:
+        return True
+    code = w3_bsc.eth.get_code(Web3.to_checksum_address(address))
+    return code != HexBytes('0x')
+
+
 
 def check_address_type_ETH(address):
-    w3 = Web3(Web3.HTTPProvider(f'https://mainnet.infura.io/v3/{INFURIA_TOKEN}')) 
-    code = w3.eth.getCode(address)
+    contract = is_contract_eth(address)
     
-    if code == b'' or code == b'\x00':
-       return 'ETH_EOA'
+    if contract == True:
+       return 'ETH_SMART_CONTRACT'
     else:
-        return 'ETH_SMART_CONTRACT'
+        return 'ETH_EOA'
 
 def check_address_type_BSC(address):
-    w3 = Web3(Web3.HTTPProvider(f'https://special-shy-yard.bsc.discover.quiknode.pro/{QUICKNODE_TOKEN}/')) # Replace with your own project ID
-    code = w3.eth.getCode(address)
+    contract = is_contract_bsc(address)
     
-    if code == b'' or code == b'\x00':
-        return 'BSC_EOA'
-    else:
+    if contract == True:
         return 'BSC_SMART_CONTRACT'
+    else:
+        return 'BSC_EOA'
 
 
 def get_contract_deployer_BSC(BSC_scontract):
@@ -105,7 +141,7 @@ async def check_addresses():
     # Apply the custom date parser to the 'Date' column
     df['Date'] = df['Date'].iloc[1:].apply(custom_date_parser)
     # Calculate the date from 7 days ago
-    three_days_ago = datetime.now() - timedelta(days=3)
+    three_days_ago = datetime.now() - timedelta(days=30)
 
     # Filter rows where the 'Date' is greater than seven_days_ago
     filtered_df = df[df['Date'] > three_days_ago]
@@ -118,7 +154,7 @@ async def check_addresses():
         if index >= 1:  # Start from row 2
                 address = row['Address']
                 print(address.lower(),index)
-                checksum_address = Web3.toChecksumAddress(address.lower()) # Convert to checksum address
+                checksum_address = Web3.to_checksum_address(address.lower()) # Convert to checksum address
                 chain = row['Chain ID'] if pd.notna(row['Chain ID']) else ''
                 tag = ''
                 

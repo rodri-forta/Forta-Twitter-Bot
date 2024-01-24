@@ -55,7 +55,7 @@ def handle_block(block_event):
     last_hour = load_last_hour()
     print('last hour: ',  last_hour)
     print('next run at: ',  (last_hour+2))
-    if current_hour % 2 == 0 and current_hour != last_hour:
+    if current_hour % 2 != 0 and current_hour != last_hour:
         addresses_in_tweets, urls_in_tweets =  asyncio.run(run_twitter())
         save_hour(current_hour)
         if addresses_in_tweets:          

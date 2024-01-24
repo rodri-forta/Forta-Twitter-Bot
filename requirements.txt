@@ -7,3 +7,4 @@ requests
 aiohttp
 python-dotenv
 web3
+hexbytes
