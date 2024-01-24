@@ -43,7 +43,7 @@ def is_contract_eth(address) -> bool:
     """
     if address is None:
         return True
-    code = w3_eth.eth.get_code(Web3.to_checksum_address(address))
+    code = w3_eth.eth.get_code(Web3.toChecksumAddress(address))
     return code != HexBytes('0x')
 
 def is_contract_bsc(address) -> bool:
@@ -53,7 +53,7 @@ def is_contract_bsc(address) -> bool:
     """
     if address is None:
         return True
-    code = w3_bsc.eth.get_code(Web3.to_checksum_address(address))
+    code = w3_bsc.eth.get_code(Web3.toChecksumAddress(address))
     return code != HexBytes('0x')
 
 
@@ -154,7 +154,7 @@ async def check_addresses():
         if index >= 1:  # Start from row 2
                 address = row['Address']
                 print(address.lower(),index)
-                checksum_address = Web3.to_checksum_address(address.lower()) # Convert to checksum address
+                checksum_address = Web3.toChecksumAddress(address.lower()) # Convert to checksum address
                 chain = row['Chain ID'] if pd.notna(row['Chain ID']) else ''
                 tag = ''
                 
