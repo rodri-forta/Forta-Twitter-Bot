@@ -1,3 +1,4 @@
+web3
 forta_agent>=0.1.21
 setuptools>=61.3.1
 pandas 
@@ -6,5 +7,4 @@ asyncio
 requests
 aiohttp
 python-dotenv
-web3
 hexbytes
