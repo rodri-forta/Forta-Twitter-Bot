@@ -37,10 +37,10 @@
     "stake": "forta-agent stake",
     "test": "python3 -m pytest"
   },
-  "dependencies": {
-    "forta-agent": "^0.1.41"
-  },
   "devDependencies": {
     "nodemon": "^2.0.8"
+  },
+  "dependencies": {
+    "forta-agent": "^0.1.48"
   }
 }
